@@ -30,7 +30,6 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
               ),
               SizedBox(height: 20),
 
-
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: entries.length,
@@ -40,7 +39,6 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
                     child: Card(
                       elevation: 5,
                       margin: EdgeInsets.fromLTRB(0,5,0,5),
-                      //color: Colors.lightBlueAccent,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(entries[index],style: TextStyle(fontSize: 20)),
@@ -54,5 +52,9 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
         ),
       ),
     );
+  }
+
+  void fetchData(){
+    
   }
 }
