@@ -1,76 +1,129 @@
+import 'package:coronatest/DatabaseViewer.dart';
+import 'package:coronatest/QRcode.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: Loading(),
+    initialRoute: '/',
+    routes: {
+      '/': (context) => Home(),
+      'qrcodeScanner': (context) => QRScanner(),
+      'dbViewer': (context) => DatabaseViewer(),
+    },
   ));
 }
 
-class Loading extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _LoadingState createState() => _LoadingState();
+  _HomeState createState() => _HomeState();
 }
 
-class _LoadingState extends State<Loading> {
+class _HomeState extends State<Home> {
   final List<String> entries = <String>['Kennung 1: Schmitz', 'Kennung 2: Müller', 'Kennung 3: Scheer'];
   @override
   Widget build(BuildContext context) {
+
+    
+
     return Scaffold(
-      backgroundColor: Color(0xff21262d),
+      
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "ESK-Coronatest Verwaltung",
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w900
-                )
-              ),
-              SizedBox(height: 20),
-
-              Container(
-                width: 500,
-                child: TextField(   
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Suche',
-                    labelStyle: TextStyle(
-                      color: Colors.white
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      "ESK-Coronatest Verwaltung",
+                      style: TextStyle(
+                        fontSize: 35,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900
+                      )
                     ),
                   ),
-                ),
+                  Image(image: AssetImage("assets/esk.png"), height: 50,)
+                ],
               ),
-              SizedBox(height: 20),
-
-
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () => print("loool"),
+              SizedBox(height: 30),
+              
+              Center(
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, "qrcodeScanner");
+                    },
                     child: Card(
-                      
-                      margin: EdgeInsets.fromLTRB(0,5,0,5),
-                      color: Colors.lightBlueAccent,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(entries[index],style: TextStyle(fontSize: 20)),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(Icons.qr_code_scanner_sharp,size: 40,color: Colors.white,),
+                              Text(
+                                "QR-Code scannen",
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  color: Colors.white
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
                       ),
+                      color: Color(0xff00c7c7),
                     ),
-                  );
-                }
-              )
+                  ),
+                )
+              ),
+
+              SizedBox(height: 50),
+
+
+              Center(
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, "dbViewer");
+                    },
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(Icons.format_list_numbered_sharp,size: 40,color: Colors.white,),
+                              Text(
+                                "Daten anzeigen",
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  color: Colors.white
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+                      ),
+                      color: Color(0xff2c393f),
+                    ),
+                  ),
+                )
+              ),
             ],
           ),
         ),
       ),
     );
   }
+  
 }
