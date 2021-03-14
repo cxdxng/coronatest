@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DatabaseViewer extends StatefulWidget {
   @override
@@ -16,6 +19,11 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              RaisedButton(
+                onPressed: ()=>fetchData(),
+                child: Text("Fetch Data"),
+              ),
               
               Container(
                 width: 500,
@@ -54,7 +62,9 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
     );
   }
 
-  void fetchData(){
-    
+  void fetchData()async{
+    final response = await http.get(Uri.https("esktcorona.000webhostapp.com", "/index.php"));
+    List<dynamic> jsonResponse = await jsonDecode(response.body);
+    print(jsonResponse[0]);
   }
 }
