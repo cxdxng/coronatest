@@ -1,14 +1,18 @@
+import 'dart:convert';
+
 import 'package:coronatest/DatabaseViewer.dart';
 import 'package:coronatest/QRcode.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
       '/': (context) => Home(),
-      'qrcodeScanner': (context) => QRScanner(),
-      'dbViewer': (context) => DatabaseViewer(),
+      '/qrcodeScanner': (context) => QRScanner(),
+      '/dbViewer': (context) => DatabaseViewer(),
     },
   ));
 }
@@ -19,7 +23,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<String> entries = <String>['Kennung 1: Schmitz', 'Kennung 2: Müller', 'Kennung 3: Scheer'];
   @override
   Widget build(BuildContext context) {
 
@@ -57,7 +60,7 @@ class _HomeState extends State<Home> {
                   width: 300,
                   child: InkWell(
                     onTap: (){
-                      Navigator.pushNamed(context, "qrcodeScanner");
+                      Navigator.pushNamed(context, "/qrcodeScanner");
                     },
                     child: Card(
                       child: Padding(
@@ -93,7 +96,9 @@ class _HomeState extends State<Home> {
                   width: 300,
                   child: InkWell(
                     onTap: (){
-                      Navigator.pushNamed(context, "dbViewer");
+                                
+                      Navigator.pushNamed(context, "/dbViewer");
+                      
                     },
                     child: Card(
                       child: Padding(

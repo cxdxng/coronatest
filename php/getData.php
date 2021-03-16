@@ -13,7 +13,7 @@ $rows = array();
 while($r = mysqli_fetch_assoc($sth)) {
     $rows[] = $r;
 }
-print json_encode($rows);
+echo json_encode($rows);
   
 $conn->close();
 

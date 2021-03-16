@@ -9,9 +9,18 @@ class DatabaseViewer extends StatefulWidget {
 }
 
 class _DatabaseViewerState extends State<DatabaseViewer> {
-  final List<String> entries = <String>['Kennung 1: Schmitz', 'Kennung 2: Müller', 'Kennung 3: Scheer'];
+  List<dynamic> entries;
+  bool isDataReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAllData();
+  }
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -19,42 +28,53 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              RaisedButton(
-                onPressed: ()=>fetchData(),
-                child: Text("Fetch Data"),
-              ),
-              
-              Container(
-                width: 500,
-                child: TextField(   
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Suche',
-                    
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: (){},
-                    child: Card(
-                      elevation: 5,
-                      margin: EdgeInsets.fromLTRB(0,5,0,5),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(entries[index],style: TextStyle(fontSize: 20)),
+                            
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextField(   
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Suche',
+                        
                       ),
                     ),
-                  );
-                }
-              )
+                  ),
+                  RaisedButton(
+                    onPressed: (){
+                      
+                      
+                    },
+                    
+                    child: Text("Suchen"),
+                  )
+                ],
+              ),
+              SizedBox(height: 20),
+              isDataReady?
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: entries.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: (){},
+                      child: Card(
+                        elevation: 5,
+                        margin: EdgeInsets.fromLTRB(0,5,0,5),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            formatJson(entries[index]),
+                            style: TextStyle(fontSize: 20)),
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              ):CircularProgressIndicator()
             ],
           ),
         ),
@@ -62,9 +82,32 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
     );
   }
 
-  void fetchData()async{
+  void fetchAllData()async{
     final response = await http.get(Uri.https("esktcorona.000webhostapp.com", "/index.php"));
-    List<dynamic> jsonResponse = await jsonDecode(response.body);
-    print(jsonResponse[0]);
+    entries = jsonDecode(response.body);
+    setState(() {
+      isDataReady = true;
+    });
+    //convertData();
   }
+
+  void convertData()async{
+    int length = await entries.length;
+    List<Map<String,dynamic>> laal;
+
+    for(int i=0; i < length; i++){
+      laal.add(jsonDecode(entries[i]));
+    }
+    print("Data: $laal");
+  }
+
+  String formatJson(dynamic data){
+     print(data["id"]);
+     String id = data["id"];
+     String name = data["vornachname"];
+
+     return "$id | $name";
+  }
+
+  
 }
