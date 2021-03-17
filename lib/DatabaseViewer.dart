@@ -10,6 +10,7 @@ class DatabaseViewer extends StatefulWidget {
 
 class _DatabaseViewerState extends State<DatabaseViewer> {
   List<dynamic> entries;
+  List<String> dataStringList = [];
   bool isDataReady = false;
 
   @override
@@ -38,8 +39,13 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Suche',
-                        
                       ),
+                      onChanged: (text){
+                        setState(() {
+                          return dataStringList.contains(text); 
+                        });
+                        print(text);
+                      },
                     ),
                   ),
                   RaisedButton(
@@ -67,7 +73,7 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Text(
-                            formatJson(entries[index]),
+                            dataStringList[index],
                             style: TextStyle(fontSize: 20)),
                         ),
                       ),
@@ -88,25 +94,18 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
     setState(() {
       isDataReady = true;
     });
-    //convertData();
+    convertData(entries);
   }
 
-  void convertData()async{
-    int length = await entries.length;
-    List<Map<String,dynamic>> laal;
+  void convertData(dynamic lul)async{
+    
 
-    for(int i=0; i < length; i++){
-      laal.add(jsonDecode(entries[i]));
-    }
-    print("Data: $laal");
-  }
-
-  String formatJson(dynamic data){
-     print(data["id"]);
-     String id = data["id"];
-     String name = data["vornachname"];
-
-     return "$id | $name";
+    for(var i=0; i < lul.length; i++){
+      String id = lul[i]["id"];
+      String name = lul[i]["vornachname"];
+      dataStringList.add("$id | $name");
+    }   
+    
   }
 
   
