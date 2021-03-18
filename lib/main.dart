@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:coronatest/DatabaseViewer.dart';
-import 'package:coronatest/QRcode.dart';
+import 'package:coronatest/QRcodegenerator.dart';
+import 'package:coronatest/QRcodescanner.dart';
+import 'package:coronatest/TestUI.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 
 void main() {
@@ -12,7 +13,9 @@ void main() {
     routes: {
       '/': (context) => Home(),
       '/qrcodeScanner': (context) => QRScanner(),
+      '/qrcodegenerator': (context) => QRGenerator(),
       '/dbViewer': (context) => DatabaseViewer(),
+      '/test': (context) => TestUI()
     },
   ));
 }
@@ -26,38 +29,33 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    
-
     return Scaffold(
       
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(0),
+          padding: const EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      "ESK-Coronatest Verwaltung",
-                      style: TextStyle(
-                        fontSize: 35,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w900
-                      )
-                    ),
+                  Text(
+                    "ESK-SIC\nCorona Verwaltung",
+                    style: TextStyle(
+                      fontSize: 35,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w900
+                    )
                   ),
                   Image(image: AssetImage("assets/esk.png"), height: 50,)
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 50),
               
               Center(
                 child: Container(
-                  height: 300,
-                  width: 300,
+                  height: 150,
                   child: InkWell(
                     onTap: (){
                       Navigator.pushNamed(context, "/qrcodeScanner");
@@ -81,7 +79,41 @@ class _HomeState extends State<Home> {
                           )
                         ),
                       ),
-                      color: Color(0xff00c7c7),
+                      color: Color(0xff618884),
+                    ),
+                  ),
+                )
+              ),
+
+              SizedBox(height: 50),
+
+              Center(
+                child: Container(
+                  height: 150,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context, "/qrcodegenerator");
+                    },
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(Icons.qr_code_scanner_sharp,size: 40,color: Colors.white,),
+                              Text(
+                                "QR-Code erstellen",
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  color: Colors.white
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+                      ),
+                      color: Colors.grey[500],
                     ),
                   ),
                 )
@@ -92,8 +124,7 @@ class _HomeState extends State<Home> {
 
               Center(
                 child: Container(
-                  height: 300,
-                  width: 300,
+                  height: 150,
                   child: InkWell(
                     onTap: (){
                                 
@@ -119,7 +150,7 @@ class _HomeState extends State<Home> {
                           )
                         ),
                       ),
-                      color: Color(0xff2c393f),
+                      color: Colors.grey[850],
                     ),
                   ),
                 )
@@ -130,5 +161,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-  
 }
