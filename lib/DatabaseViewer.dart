@@ -51,12 +51,6 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
                       },
                     ),
                   ),
-                  RaisedButton(
-                    onPressed: (){
-                      
-                    },
-                    child: Text("Suchen"),
-                  )
                 ],
               ),
               SizedBox(height: 20),
