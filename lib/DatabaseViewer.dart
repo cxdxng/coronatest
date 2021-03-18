@@ -19,14 +19,13 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
   @override
   void initState() {
     super.initState();
+    // Fetch data first
     fetchAllData();
     
   }
 
   @override
   Widget build(BuildContext context) {
-
-    
 
     return Scaffold(
       body: SafeArea(
@@ -49,7 +48,6 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
                         setState(() {
                           displayList = dataStringList.where((element) => element.toLowerCase().contains(text.toLowerCase())).toList();
                         });
-                        print(displayList);
                       },
                     ),
                   ),
@@ -92,6 +90,7 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
     );
   }
 
+  // Get data from Database
   void fetchAllData()async{
     final response = await http.get(Uri.https("esktcorona.000webhostapp.com", "/getAllData.php"));
     entries = jsonDecode(response.body);
@@ -99,31 +98,39 @@ class _DatabaseViewerState extends State<DatabaseViewer> {
     setState(() {
       isDataReady = true;
     });
-    
+    //Convert it to List<String>
     convertData(entries);
   }
 
-  void convertData(dynamic lul)async{
-    for(var i=0; i < lul.length; i++){
-      String id = lul[i]["id"];
-      String name = lul[i]["vornachname"];
+  void convertData(dynamic listDynamic)async{
+
+    // Add every entry from the og list which is a dynamic List
+    // to a new List that is a List of Strings
+    for(var i=0; i < listDynamic.length; i++){
+      String id = listDynamic[i]["id"];
+      String name = listDynamic[i]["vornachname"];
       dataStringList.add("$id | $name");
      
-    }   
+    }
+    // Set the data from the new List of Strings to the displayList
+    // so that changes in the TextField will result in filtered Results
     displayList = List.from(dataStringList);
   }
 
-  void filterSearchResults(String query) {
-       
-    
-  }
-
   void changeRoute(int index){
-    var data = entries[index];
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PersonInfo(personData: data,),
-    ));
+    // Seperate String so only name is available
+    var data = displayList[index];
+    var split = data.split(" | ");
+    // Check in the original list for name Similarity
+    for(int i=0; i< entries.length; i++){
+      if(entries[i].toString().contains(split[1])){
+        // If an entry from the og list matches with the name from the TextField
+        // the info will get passed to personInfo for Display
+        Navigator.push(context,
+              MaterialPageRoute(
+                builder: (context) => PersonInfo(personData: entries[i],),
+            ));
+      }
+    }   
   } 
 }
