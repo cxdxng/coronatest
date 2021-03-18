@@ -8,18 +8,18 @@ class TestUI extends StatelessWidget {
       body: Column(
         children: [
           Row(
-                        children: [
-                          RaisedButton(
-                            onPressed: (){},
-                            child: Text("Positiv"),
-                          ),
-                          SizedBox(width: 20),
-                          RaisedButton(
-                            onPressed: (){},
-                            child: Text("Negativ"),
-                          ),
-                        ],
-                      )
+            children: [
+              RaisedButton(
+                onPressed: (){},
+                child: Text("Positiv"),
+              ),
+              SizedBox(width: 20),
+              RaisedButton(
+                onPressed: (){},
+                child: Text("Negativ"),
+              ),
+            ],
+          )
         ],
       ),
     );

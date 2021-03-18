@@ -122,14 +122,16 @@ class _QRScannerState extends State<QRScanner> {
   void sendData(String qrdata, int posOrNeg)async{
     // Send the data to server here
 
-    var time = DateTime.now();
-    var formatter = DateFormat('dd.MM.yy, hh:mm');
-    print(formatter.format(time));
+    DateTime time = DateTime.now();
+    DateFormat formatter = DateFormat('dd.MM.yy, HH:mm');
+    String formattedTime = formatter.format(time);
 
     var split = qrdata.split(";");
     Map data = {
       "id": split[0],
+      "time": formattedTime
     };
+    print(data);
     switch (posOrNeg){
       case 0:{
         Response response = await http.post(Uri.https("esktcorona.000webhostapp.com", "/addNegative.php"), body: data);
@@ -142,6 +144,10 @@ class _QRScannerState extends State<QRScanner> {
       }
       break;
     }
+
+    setState(() {
+      result = null;
+    });
     
   }
 }

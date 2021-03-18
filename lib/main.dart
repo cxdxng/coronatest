@@ -4,6 +4,7 @@ import 'package:coronatest/DatabaseViewer.dart';
 import 'package:coronatest/QRcodegenerator.dart';
 import 'package:coronatest/QRcodescanner.dart';
 import 'package:coronatest/TestUI.dart';
+import 'package:coronatest/personInfo.dart';
 import 'package:flutter/material.dart';
 
 
@@ -15,7 +16,8 @@ void main() {
       '/qrcodeScanner': (context) => QRScanner(),
       '/qrcodegenerator': (context) => QRGenerator(),
       '/dbViewer': (context) => DatabaseViewer(),
-      '/test': (context) => TestUI()
+      '/test': (context) => TestUI(),
+      '/personInfo': (context) => PersonInfo()
     },
   ));
 }
