@@ -1,5 +1,8 @@
 <?php
 
+header("Access-Control-Allow-Origin: *");
+
+
 $db_name="id16373974_eskdata";
 $mysql_username="id16373974_root";
 $mysql_password="H_Y@pDjdN6=Os(=s";
